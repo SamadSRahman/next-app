@@ -5,13 +5,13 @@ if (typeof window !== 'undefined') {
 }
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "",
   headers: {
     "Content-Type": "application/json",
   },
 });
 export const apiClientWithToken = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
