@@ -1,0 +1,63 @@
+.container{
+    width: 100%;
+    height: 100%;
+    /* background-color: red; */
+    border-radius: inherit;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding:20px;
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.tagContainer{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.tagContainer::-webkit-scrollbar{
+    display: none !important;
+}
+.tag{
+    min-width: fit-content;
+    padding: 8px 10px;
+    border-radius: 15px;
+    backdrop-filter: blur(50px);
+    box-sizing: border-box;
+   
+    text-shadow: 1px 1px 1px rgb(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background-color 0.2s linear;
+    /* */
+}
+
+.activeTag{
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+.contentBox{
+    font-size: 18px;
+    text-shadow: 0.5px 0.5px 2px rgba(0, 0, 0, 1);
+    /* backdrop-filter: blur(10px); */
+    
+    /* border: 1px solid black; */
+}
+.contentBox button{
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 8px;
+    cursor: pointer;
+    text-shadow: none;
+    background-color: white;
+}
+@media screen and (max-width:426px) {
+    .container{
+        height: 90vh;
+    }
+}

@@ -1,0 +1,96 @@
+.primaryBtn, .primaryIconBtn, .basicIconBtn, .filterBtn, .autocompleteBtn {
+  background-color: #1ea7f4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  min-width: max-content;
+  width: 100%;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: background-color 0.2s linear, color 0.2s linear ;
+}
+.autocompleteBtn{
+  padding: 5px;
+  font-size: 13px;
+}
+.filterBtn{
+  background-color: #F7F7F7;
+  color: black;
+  font-weight: 500;
+}
+.basicIconBtn {
+  background-color: white;
+  color: black;
+  font-weight: 500;
+
+}
+.primaryIconBtn, .basicIconBtn, .filterBtn {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 5px;
+}
+
+.basicIconBtn img, .primaryIconBtn img , .filterBtn img{
+  width: 18px;
+}
+.paginationBtn , .paginationDisabledBtn{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  background-color: white;
+  color: black;
+  border: 1.2px solid;
+  border-radius: 7px;
+  padding:6px;
+  width: 9.5rem;
+  padding-left: 5px;
+  gap: 0px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.paginationDisabledBtn{
+  color: #999999;
+  cursor: not-allowed;
+}
+.paginationRightBtn, .paginationRightDisabledBtn{
+  display: flex;
+  align-items: center;
+  justify-content: right  ;
+  background-color: white;
+  color: black;
+  border: 1.2px solid;
+  border-radius: 7px;
+  padding: 6px;
+  width: 8rem;
+  gap: 0px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.paginationRightDisabledBtn{
+  color: #999999;
+  cursor: not-allowed;
+}
+.calendarBtn{
+  background-color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 2.6rem;
+  height: 2.8rem;
+}
+.calendarBtn.disabled{
+  cursor:not-allowed;
+}
+.dialogPrimaryBtn , .dialogSecondaryBtn{
+  padding: 10px 15px;
+  background-color: #1ea7f4;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 550;
+}

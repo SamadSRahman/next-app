@@ -1,0 +1,38 @@
+.headerContainer{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 3rem;
+padding: 0px 30px;
+box-sizing: border-box;
+
+background-color: white;
+}
+.headerContainer h3{
+
+    width: 15rem;
+}
+
+.adminSection{
+
+    width: 15rem;  
+display: flex;
+justify-content: end;
+
+}
+.popup{
+    background-color: darkgray;
+    color: black;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
