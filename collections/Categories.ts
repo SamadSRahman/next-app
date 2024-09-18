@@ -51,13 +51,13 @@ export const Categories: CollectionConfig = {
           label: 'Subcategory Description',
           type: 'textarea',
         },
-        {
-          name: 'products',
-          label: 'Products',
-          type: 'relationship',
-          relationTo: 'products', // This should point to the products collection
-          hasMany: true, // Allows multiple products in each subcategory
-        },
+        // {
+        //   name: 'products',
+        //   label: 'Products',
+        //   type: 'relationship',
+        //   relationTo: 'products', // This should point to the products collection
+        //   hasMany: true, // Allows multiple products in each subcategory
+        // },
       ],
     },
   ],

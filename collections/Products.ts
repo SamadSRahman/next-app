@@ -62,13 +62,13 @@ labels: {
           },
         ],
       },
-      {
-        name: 'category',
-        label: 'Category',
-        type: 'relationship',
-        relationTo: 'categories', // Reference the Categories collection
-        required: true,
-      },
+    //   {
+    //     name: 'category',
+    //     label: 'Category',
+    //     type: 'relationship',
+    //     relationTo: 'categories', // Reference the Categories collection
+    //     required: true,
+    //   },
     // Add other fields as needed
   ],
 }
