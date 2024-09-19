@@ -56,7 +56,7 @@ export default function CategoriesSection() {
     <div
       className={styles.container}
       style={{
-        backgroundImage: `url(http://localhost:3000${categories[currentIndex]?.image?.sizes?.tablet?.url})`,
+        backgroundImage: `url(${categories[currentIndex]?.image?.cloudinaryUrl})`,
       }}
     >
       <div className={styles.tagContainer} ref={tagContainerRef}>

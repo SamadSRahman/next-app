@@ -5,9 +5,11 @@ import styles from "./home.module.css";
 import CategoriesSection from "../components/categoriesSection/CategoriesSection";
 import ContentSection from "../components/contentSection/ContentSection";
 
+
 const Home = () => {
   return (
     <div className={styles.container}>
+    
       <div className={styles.categoriesSection}>
         {" "}
         <CategoriesSection />

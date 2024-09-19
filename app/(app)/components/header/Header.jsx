@@ -3,7 +3,10 @@ import Navbar from "../navbar/Navbar";
 import styles from "./header.module.css";
 
 const Header = () => {
-  const name = localStorage.getItem("userName") || "G";
+ let name = "G"
+ if (typeof window !== 'undefined')
+   name = localStorage.getItem("userName") || "G";
+ 
   return (
     <header className={styles.headerContainer}>
       <h3>E-commerce</h3>

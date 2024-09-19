@@ -7,16 +7,16 @@ export default function CategoryCard({ category }) {
 
   useEffect(() => {
     const img = new Image();
-    img.src = `http://localhost:3000${category?.image?.sizes?.card?.url}`;
+    img.src = `${category?.image?.cloudinaryUrl}`;
     img.onload = () => setImageLoaded(true);
-  }, [category?.image?.sizes?.card?.url]);
+  }, [category?.image?.cloudinaryUrl]);
 
   return (
     <div className={styles.cardContainer}>
       {imageLoaded ? (
         <div
           className={styles.card}
-          style={{ backgroundImage: `url(http://localhost:3000${category?.image?.sizes?.thumbnail?.url})` }}
+          style={{ backgroundImage: `url(${category?.image?.cloudinaryUrl})` }}
         >
           <h4>{category?.name}</h4>
         </div>
