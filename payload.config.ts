@@ -34,6 +34,11 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
   }),
+  cors: [
+    "http://192.168.1.19:5173",
+    'http://localhost:5173',
+    process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
+  ].filter(Boolean),
   // database-adapter-config-end
   sharp,
   plugins: [
