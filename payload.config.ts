@@ -37,6 +37,7 @@ export default buildConfig({
   cors: [
     "http://192.168.1.19:5173",
     'http://localhost:5173',
+    'https://e-commerce-new-nine.vercel.app',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
   ].filter(Boolean),
   // database-adapter-config-end
