@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 const About: CollectionConfig = {
   slug: 'about',
+  access: {
+    read: () => true,
+  },
   labels: {
     singular: 'About Us',
     plural: 'About Us',
