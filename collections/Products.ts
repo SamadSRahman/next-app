@@ -1,7 +1,4 @@
-
-
-
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionSlug } from 'payload'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -12,63 +9,115 @@ labels: {
     singular: 'Product',
     plural: 'Products',
   },
-  fields: [
-    {
-      name: 'name',
-      label: 'Name',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'views',
-      type: 'number',
-      defaultValue: 0, // Initially 0 views
-    },
-    {
-      name: 'price',
-      label: 'Price',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'description',
-      label: 'Description',
-      type: 'textarea',
-    },
-    {
-        name: 'features',
-        label: 'Features',
-        type: 'array',
-        fields: [
-          {
-            name: 'feature',
-            label: 'Feature',
-            type: 'text',
-            required: true,
-          },
-        ],
+fields:[
+  {
+    name:'productName',
+    label:'Name',
+    type:'text'
+  },
+  {
+    name:'brandName',
+    label:'Brand',
+    type:'text'
+  },
+  {
+    name:'brandLogo',
+    label:'Brand Logo',
+    type:'upload',
+    relationTo:'media'
+  },
+  {
+    name:'variant',
+    label:"Variant",
+    type:'array',
+    fields:[
+      {
+        name:"markedPrice",
+        label:"Marked Price",
+        type:'number'
       },
       {
-        name: 'images',
-        label: 'Images',
-        type: 'array',
-        fields: [
-          {
-            name: 'image',
-            label: 'Image',
-            type: 'upload',
-            relationTo: 'media', // Reference the Uploads collection
-            required: true,
-          },
-        ],
+        name:"sellingPrice",
+        label:"Selling Price",
+        type:'number'
       },
-    //   {
-    //     name: 'category',
-    //     label: 'Category',
-    //     type: 'relationship',
-    //     relationTo: 'categories', // Reference the Categories collection
-    //     required: true,
-    //   },
-    // Add other fields as needed
-  ],
+      {
+        name:"discount",
+        label:"Discount (in %)",
+        type:'number'
+      },{
+        name:"maxPurchaseBySingleUser",
+        label:"Max Purchase By Single User",
+        type:"number"
+      },
+      {
+        name:'inStock',
+        label:'In Stock',
+        type:'checkbox'
+      },{
+        name:"offers",
+        label:"Offers",
+        type:'array',
+        fields:[{
+          name:'offer',
+          label:'Offer Title',
+          type:"text",
+        },
+        {
+          name:'terms',
+          label :"Terms and Conditions",
+          type:"array",
+          fields:[
+            {
+              name:'terms',
+              label:'Terms',
+              type:"text",
+            }
+          ]
+        },
+        {
+          name:'isOfferValid',
+          type:"checkbox",
+          label:"Is Offer Valid"
+        },
+      ]
+      },
+      {
+        name:'color',
+        label:"Color",
+        type:'text',
+      },
+      {
+        name:'images',
+        label:"Images",
+        type:'array',
+        fields:[
+          {
+            name:'image',
+            label:'Image',
+            type:'upload',
+            relationTo:'media'
+          }
+        ]
+
+      },
+      {
+        name:"description",
+        label:'Description',
+        type:'textarea'
+      },
+      {
+        name:'sizes',
+        label:'Sizes',
+        type:"array",
+        fields:[{
+          name:"size",
+          label:"size",
+          type:'text'
+        }]
+      }
+    ]
+  }
+
+]
 }

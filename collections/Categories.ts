@@ -1,5 +1,4 @@
-import type { CollectionConfig } from 'payload'
-
+import type { CollectionConfig, CollectionSlug } from 'payload'
 export const Categories: CollectionConfig = {
   slug: 'categories',
   access: {
@@ -34,6 +33,8 @@ export const Categories: CollectionConfig = {
       required: true,
     },
 
+   
+
     {
       name: 'subcategories',
       label: 'Subcategories',
@@ -51,13 +52,14 @@ export const Categories: CollectionConfig = {
           label: 'Subcategory Description',
           type: 'textarea',
         },
-        // {
-        //   name: 'products',
-        //   label: 'Products',
-        //   type: 'relationship',
-        //   relationTo: 'products', // This should point to the products collection
-        //   hasMany: true, // Allows multiple products in each subcategory
-        // },
+        {
+          name: 'products',
+          label: 'Products',
+          type: 'relationship',
+          relationTo:'products' as CollectionSlug,
+    
+        },
+      
       ],
     },
   ],

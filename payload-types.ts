@@ -79,6 +79,7 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
 }
+
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
