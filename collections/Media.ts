@@ -10,6 +10,7 @@ cloudinary.config({
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  
   access: {
     read: () => true, // Public read access
   },
@@ -70,4 +71,7 @@ export const Media: CollectionConfig = {
       },
     ],
   },
+  
+
 };
+
