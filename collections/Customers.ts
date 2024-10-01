@@ -7,11 +7,11 @@ export const Customers: CollectionConfig = {
     verify:true,
   }, // Enable auth for this collection
   access: {
-    read:({ req: { user, headers }, id }) => {
+    read:({ req: { user }, id }) => {
       // Check if the user object is present (i.e., the JWT token is valid)
       console.log("id", id);
       console.log("userId",user, user?.id);
-      console.log("Headers:", headers);
+    
       
       
       if (user && user.id === id) {
