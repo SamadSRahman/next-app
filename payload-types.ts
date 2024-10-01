@@ -9,23 +9,50 @@
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    customers: CustomerAuthOperations;
   };
   collections: {
     users: User;
     media: Media;
+    customers: Customer;
+    products: Product;
+    categories: Category;
+    about: About;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (User & {
+        collection: 'users';
+      })
+    | (Customer & {
+        collection: 'customers';
+      });
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface CustomerAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -48,7 +75,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -65,8 +92,9 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
+  cloudinaryUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -79,17 +107,206 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
 }
-
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers".
+ */
+export interface Customer {
+  id: number;
+  name: string;
+  address?:
+    | {
+        line1: string;
+        line2?: string | null;
+        city: string;
+        state: string;
+        zip: string;
+        id?: string | null;
+      }[]
+    | null;
+  cart?:
+    | {
+        product?: (number | null) | Product;
+        quantity?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  wishlist?:
+    | {
+        product?: (number | null) | Product;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  productName?: string | null;
+  brandName?: string | null;
+  brandLogo?: (number | null) | Media;
+  variant?:
+    | {
+        markedPrice?: number | null;
+        sellingPrice?: number | null;
+        discount?: number | null;
+        maxPurchaseBySingleUser?: number | null;
+        inStock?: boolean | null;
+        offers?:
+          | {
+              offer?: string | null;
+              terms?:
+                | {
+                    terms?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              isOfferValid?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        color?: string | null;
+        images?:
+          | {
+              image?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        description?: string | null;
+        sizes?:
+          | {
+              size?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        features?:
+          | {
+              feature?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        technicalDetails?:
+          | {
+              title?: string | null;
+              description?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        reviews?:
+          | {
+              rating: number;
+              reviewText: string;
+              customerName: string;
+              createdAt: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  description?: string | null;
+  image: number | Media;
+  subcategories?:
+    | {
+        subcat_name: string;
+        subcat_description?: string | null;
+        products?: (number | null) | Product;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  heroSection: {
+    headline: string;
+    subheading: string;
+    backgroundImage?: (number | null) | Media;
+    ctaButton?: string | null;
+  };
+  missionSection: {
+    missionStatement: string;
+    missionImage?: (number | null) | Media;
+  };
+  storySection?:
+    | {
+        year: string;
+        description?: string | null;
+        milestoneImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  valuesSection?:
+    | {
+        valueTitle: string;
+        valueDescription?: string | null;
+        icon?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  teamSection?:
+    | {
+        teamMemberName: string;
+        bio?: string | null;
+        teamMemberImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  testimonialsSection?:
+    | {
+        testimonial: string;
+        customerName?: string | null;
+        customerImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  id: number;
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'customers';
+        value: number | Customer;
+      };
   key?: string | null;
   value?:
     | {
@@ -108,7 +325,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;

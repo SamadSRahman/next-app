@@ -5,6 +5,7 @@ export const Products: CollectionConfig = {
   access: {
     read: () => true,
   },
+  admin:{useAsTitle:'productName'},
   labels: {
     singular: "Product",
     plural: "Products",
@@ -147,6 +148,40 @@ export const Products: CollectionConfig = {
               label: "Description",
               
               type: "text",
+            },
+          ],
+        },
+        {
+          name: "reviews",
+          label: "Reviews",
+          type: "array",
+          fields: [
+            {
+              name: "rating",
+              label: "Rating",
+              type: "number",
+              min: 1,
+              max: 5,
+              required: true,
+            },
+            {
+              name: "reviewText",
+              label: "Review Text",
+              type: "textarea",
+              required: true,
+            },
+            {
+              name: "customerName",
+              label: "Customer Name",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "createdAt",
+              label: "Created At",
+              type: "date",
+              required: true,
+              defaultValue: () => new Date().toISOString(),
             },
           ],
         },

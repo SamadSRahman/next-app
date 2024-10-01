@@ -24,12 +24,14 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Customers, Products,Categories, About],
+  
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   // database-adapter-config-start
+
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI,
