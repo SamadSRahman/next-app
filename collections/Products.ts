@@ -5,7 +5,7 @@ export const Products: CollectionConfig = {
   access: {
     read: () => true,
   },
-  admin:{useAsTitle:'productName'},
+  admin: { useAsTitle: "productName" },
   labels: {
     singular: "Product",
     plural: "Products",
@@ -146,7 +146,7 @@ export const Products: CollectionConfig = {
             {
               name: "description",
               label: "Description",
-              
+
               type: "text",
             },
           ],
@@ -187,5 +187,9 @@ export const Products: CollectionConfig = {
         },
       ],
     },
+    { name: "subcategory", 
+      type: "relationship", 
+      label:"Sub Category",
+      relationTo: "subCategories" },
   ],
 };

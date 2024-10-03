@@ -1,6 +1,6 @@
 import type { CollectionConfig, CollectionSlug } from "payload";
-export const Categories: CollectionConfig = {
-  slug: "categories",
+export const SubCategories: CollectionConfig = {
+  slug: "subCategories",
   access: {
     read: () => true,
   },
@@ -8,8 +8,8 @@ export const Categories: CollectionConfig = {
     useAsTitle: "name",
   },
   labels: {
-    singular: "Category",
-    plural: "Categories",
+    singular: "Sub Category",
+    plural: "Sub Categories",
   },
 
   fields: [
@@ -29,14 +29,12 @@ export const Categories: CollectionConfig = {
       label: "Image",
       type: "upload",
       relationTo: "media", // Reference the Uploads collection
-      required: true,
     },
-
     {
-      name: "subcategories",
-      label: "Subcategories",
+      name: "products",
+      label: "Products",
       type: "relationship",
-      relationTo: "subCategories",
+      relationTo: "products",
       hasMany:true
     },
   ],

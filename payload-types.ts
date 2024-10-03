@@ -18,6 +18,7 @@ export interface Config {
     products: Product;
     categories: Category;
     about: About;
+    subCategories: SubCategory;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -218,6 +219,20 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  subcategory?: (number | null) | SubCategory;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subCategories".
+ */
+export interface SubCategory {
+  id: number;
+  name: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  products?: (number | Product)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -230,14 +245,7 @@ export interface Category {
   name: string;
   description?: string | null;
   image: number | Media;
-  subcategories?:
-    | {
-        subcat_name: string;
-        subcat_description?: string | null;
-        products?: (number | null) | Product;
-        id?: string | null;
-      }[]
-    | null;
+  subcategories?: (number | SubCategory)[] | null;
   updatedAt: string;
   createdAt: string;
 }
