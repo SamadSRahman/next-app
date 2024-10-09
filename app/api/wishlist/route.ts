@@ -1,15 +1,32 @@
 import configPromise from "@payload-config";
 import { CollectionSlug, getPayload } from "payload";
-import { NextResponse } from "next/server";
-import { Customer } from "../../../payload-types"; // Import your custom type
+import { NextRequest, NextResponse } from "next/server";
+import { Customer, Product } from "../../../payload-types";
+import jwt from "jsonwebtoken";
 
-export const POST = async (req: Request) => {
+const JWT_SECRET = process.env.PAYLOAD_SECRET || "your-secret-key";
+
+export async function OPTIONS(req: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:5173",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Credentials": "true",
+    },
+  });
+}
+
+export async function POST(req: NextRequest) {
+  if (req.method === "OPTIONS") {
+    return OPTIONS(req);
+  }
+
   try {
     const { customerId, productId } = await req.json();
-    const token = req.headers.get("Authorization")?.split(" ")[1]; // Assuming token is sent as "Bearer <token>"
-    console.log("token", token);
+    const token = req.headers.get("Authorization")?.split(" ")[1];
 
-    // Validate input
     if (!customerId || !productId || !token) {
       return NextResponse.json(
         { message: "Invalid input or missing token" },
@@ -17,16 +34,26 @@ export const POST = async (req: Request) => {
       );
     }
 
-    // Initialize Payload CMS
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      console.error("Token validation failed:", err);
+      return NextResponse.json(
+        { message: "Invalid or expired token" },
+        { status: 401 }
+      );
+    }
+
     const payload = await getPayload({
       config: configPromise,
     });
 
-    // Find the customer by ID
     const customer = (await payload.findByID({
       collection: "customers" as CollectionSlug,
       id: customerId,
     })) as Customer;
+    console.log("customer:", customer);
 
     if (!customer) {
       return NextResponse.json(
@@ -35,41 +62,74 @@ export const POST = async (req: Request) => {
       );
     }
 
-    // Get the current wishlist
-    let updatedWishlist = [...(customer.wishlist || [])];
+    let updatedWishlist = [...(customer.wishlists || [])];
+    console.log("wishlist", updatedWishlist);
 
-    // Check if the product is already in the wishlist
-    const productExists = updatedWishlist.some(
-      (item: any) => item.product.id === parseInt(productId, 10)
+    const productIndex = updatedWishlist.findIndex(
+      (item: any) => item.id === parseInt(productId, 10)
     );
+    console.log("productIndex", productIndex);
 
-    if (productExists) {
-      // Remove the product from the wishlist
-      updatedWishlist = updatedWishlist.filter(
-        (item: any) => item.product.id !== parseInt(productId, 10)
-      );
+    if (productIndex !== -1) {
+      // Remove the product if it exists
+      updatedWishlist.splice(productIndex, 1);
     } else {
-      // Add the product to the wishlist
-      updatedWishlist.push({ product: parseInt(productId, 10) });
-    }
+      // Fetch the full product details
+      const newProduct = (await payload.findByID({
+        collection: "products" as CollectionSlug,
+        id: productId,
+      })) as Product;
+      console.log("newProduct", newProduct);
 
-    // Update customer's wishlist in the database
-    const updatedCustomer = await payload.update({
+      if (!newProduct) {
+        return NextResponse.json(
+          { message: "Product not found" },
+          { status: 404 }
+        );
+      }
+
+      // Add the new wishlist item
+      updatedWishlist.push(newProduct);
+    }
+    console.log("updatedWishlist", updatedWishlist);
+
+    updatedWishlist = updatedWishlist.map((ele:any)=>ele.id)
+    console.log("updatedWishlistWithId", updatedWishlist);
+    
+
+    const updatedCustomer = (await payload.update({
       collection: "customers",
       id: customerId,
       data: {
-        wishlist: updatedWishlist,
+        wishlists: updatedWishlist,
       },
-    });
+    })) as Customer;
 
-    return NextResponse.json({
+    console.log("Final Customer:", updatedCustomer);
+
+    const response = NextResponse.json({
       message: "Wishlist updated successfully",
       customer: updatedCustomer,
     });
+
+    // Set CORS headers
+    response.headers.set(
+      "Access-Control-Allow-Origin",
+      "http://localhost:5173"
+    );
+    response.headers.set("Access-Control-Allow-Methods", "POST");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    response.headers.set("Access-Control-Allow-Credentials", "true");
+
+    return response;
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
       { message: "An error occurred", error },
       { status: 500 }
     );
   }
-};
+}

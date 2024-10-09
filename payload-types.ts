@@ -132,12 +132,7 @@ export interface Customer {
         id?: string | null;
       }[]
     | null;
-  wishlist?:
-    | {
-        product?: (number | null) | Product;
-        id?: string | null;
-      }[]
-    | null;
+  wishlists?: (number | Product)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;

@@ -96,16 +96,24 @@ export const Customers: CollectionConfig = {
       ],
     },
     {
-      name: "wishlist",
-      type: "array",
-      fields: [
-        {
-          name:"product",
-          label:"Product",
-          type:"relationship",
-          relationTo:"products",
-        }
-      ],
+      name: "wishlists",
+      type: "relationship",
+      relationTo:'products',
+      label:"Wishlist",
+      hasMany:true
     },
+    // {
+    //   name: "wishlist",
+    //   type: "array",
+    //   fields: [
+    //     {
+    //       name:"product",
+    //       label:"Product",
+    //       type:"relationship",
+    //       relationTo:"products",
+    //       hasMany:true
+    //     }
+    //   ],
+    // },
   ],
 };
