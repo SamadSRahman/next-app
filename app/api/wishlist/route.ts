@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const { customerId, productId } = await req.json();
     const token = req.headers.get("Authorization")?.split(" ")[1];
 
-    if (!customerId ||  !token) {
+    if (!customerId || !token) {
       return NextResponse.json(
         { message: "Invalid input or missing token" },
         { status: 400 }
@@ -61,11 +61,24 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-    if(!productId){
-      return  NextResponse.json({
+    if (!productId) {
+      const response = NextResponse.json({
         message: "Wishlist fetched successfully",
         wishlist: customer.wishlists,
       });
+      response.headers.set(
+        "Access-Control-Allow-Origin",
+        "http://localhost:5173"
+        // "https://e-commerce-am.vercel.app"
+      );
+      response.headers.set("Access-Control-Allow-Methods", "POST");
+      response.headers.set(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+      );
+      response.headers.set("Access-Control-Allow-Credentials", "true");
+
+      return response;
     }
     let updatedWishlist = [...(customer.wishlists || [])];
     console.log("wishlist", updatedWishlist);
@@ -98,9 +111,8 @@ export async function POST(req: NextRequest) {
     }
     console.log("updatedWishlist", updatedWishlist);
 
-    updatedWishlist = updatedWishlist.map((ele:any)=>ele.id)
+    updatedWishlist = updatedWishlist.map((ele: any) => ele.id);
     console.log("updatedWishlistWithId", updatedWishlist);
-    
 
     const updatedCustomer = (await payload.update({
       collection: "customers",
@@ -120,7 +132,7 @@ export async function POST(req: NextRequest) {
     // Set CORS headers
     response.headers.set(
       "Access-Control-Allow-Origin",
-      "http://localhost:5173",
+      "http://localhost:5173"
       // "https://e-commerce-am.vercel.app"
     );
     response.headers.set("Access-Control-Allow-Methods", "POST");
@@ -139,69 +151,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-
-
-// export async function GET(req:NextRequest) {
-// console.log("API hit");
-
-//   const payload = await getPayload({
-//       config:configPromise
-//   })
-// // Check if the request method is OPTIONS
-// if (req.method === "OPTIONS") {
-//   return NextResponse.json({}, { status: 204 });
-// }
-
-// try {
-//   // Extract token from Authorization header
-  
-  
-//   const { customerId } = await req.json();
-//   console.log("customerId", customerId);
-//   const token = req.headers.get("Authorization")?.split(" ")[1];
-//   if (!token) {
-//     return NextResponse.json(
-//       { message: "Missing Token" },
-//       { status: 400 }
-//     );
-//   }
-
-//   // Verify JWT token
-//   let decodedToken;
-//   try {
-//     decodedToken = jwt.verify(token, JWT_SECRET);
-//   } catch (err) {
-//     console.error("Token validation failed:", err);
-//     return NextResponse.json(
-//       { message: "Invalid or expired token" },
-//       { status: 401 }
-//     );
-//   }
-// console.log("token verified");
-
-//   // Retrieve customerId from params
-//   // const { customerId } = params;
-//   console.log("customer Id", customerId);
-  
-//   // Now you can use customerId in your logic
-//   console.log("Customer ID:", customerId);
-
-//   // Add your logic here to handle the customer's wishlist
-//   const customer = await payload.findByID({
-//       collection:'customers',
-//       id:customerId
-//   }) 
-//   console.log("customer", customer);
-  
-//   return NextResponse.json({ message: "Wishlist fetched successfully", wishlist:customer.wishlists });
-
-// } catch (error) {
-//   console.error("Error:", error);
-//   return NextResponse.json(
-//     { message: "An error occurred", error },
-//     { status: 500 }
-//   );
-// }
-// }
-

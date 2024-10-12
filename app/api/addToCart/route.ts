@@ -60,10 +60,23 @@ export async function POST(req: NextRequest) {
   console.log("customer", customer);
 
   if (!productID) {
-    return NextResponse.json({
+    const response =  NextResponse.json({
       message: "Cart fetched successfully",
       cart: customer.cart,
     });
+    response.headers.set(
+      "Access-Control-Allow-Origin",
+      "http://localhost:5173",
+      // "https://e-commerce-am.vercel.app"
+    );
+    response.headers.set("Access-Control-Allow-Methods", "POST");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
+    response.headers.set("Access-Control-Allow-Credentials", "true");
+  
+    return response;
   }
   let message = "";
   let updatedCart = customer.cart || [];
@@ -113,7 +126,7 @@ export async function POST(req: NextRequest) {
   });
   console.log("final cart", customer.cart);
   const response = NextResponse.json({ message: message });
-  
+
   response.headers.set(
     "Access-Control-Allow-Origin",
     "http://localhost:5173",
