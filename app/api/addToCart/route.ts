@@ -24,12 +24,9 @@ export async function POST(req: NextRequest) {
   const { customerId, productId, quantity } = await req.json();
   const token = req.headers.get("Authorization")?.split(" ")[1];
   console.log("customerId", customerId, productId);
-  
+
   if (!token) {
-    return NextResponse.json(
-      { message: "Token missing" },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: "Token missing" }, { status: 400 });
   }
 
   if (!customerId) {
@@ -68,7 +65,7 @@ export async function POST(req: NextRequest) {
       cart: customer.cart,
     });
   }
-let message = ""
+  let message = "";
   let updatedCart = customer.cart || [];
   console.log("Cart:", customer.cart);
 
@@ -81,7 +78,7 @@ let message = ""
   if (productIndex !== -1) {
     // Remove the product if it already exists in the cart (acting as a toggle)
     updatedCart.splice(productIndex, 1);
-    message = "Item removed from cart"
+    message = "Item removed from cart";
   } else {
     // Fetch the product details
     const product = await payload.findByID({
@@ -101,7 +98,7 @@ let message = ""
       product: product,
       quantity: parseInt(quantity, 10) || 1, // Default to 1 if no quantity provided
     });
-    message = "Item added to cart"
+    message = "Item added to cart";
   }
   console.log("updatedCart", updatedCart);
   updatedCart = updatedCart.map((item: any) => ({
@@ -115,6 +112,21 @@ let message = ""
     data: { cart: updatedCart },
   });
   console.log("final cart", customer.cart);
+  const response = NextResponse.json({ message: message });
+  
+  response.headers.set(
+    "Access-Control-Allow-Origin",
+    "http://localhost:5173",
+    // "https://e-commerce-am.vercel.app"
+  );
+  response.headers.set("Access-Control-Allow-Methods", "POST");
+  response.headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  response.headers.set("Access-Control-Allow-Credentials", "true");
 
-  return NextResponse.json({ message:message });
+  return response;
+
+ 
 }
