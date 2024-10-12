@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const { customerId, productId } = await req.json();
     const token = req.headers.get("Authorization")?.split(" ")[1];
 
-    if (!customerId || !productId || !token) {
+    if (!customerId ||  !token) {
       return NextResponse.json(
         { message: "Invalid input or missing token" },
         { status: 400 }
@@ -61,7 +61,12 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-
+    if(!productId){
+      return  NextResponse.json({
+        message: "Wishlist fetched successfully",
+        wishlist: customer.wishlists,
+      });
+    }
     let updatedWishlist = [...(customer.wishlists || [])];
     console.log("wishlist", updatedWishlist);
 
@@ -109,7 +114,7 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       message: "Wishlist updated successfully",
-      customer: updatedCustomer,
+      wishlist: customer.wishlists,
     });
 
     // Set CORS headers
@@ -133,3 +138,69 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+
+
+// export async function GET(req:NextRequest) {
+// console.log("API hit");
+
+//   const payload = await getPayload({
+//       config:configPromise
+//   })
+// // Check if the request method is OPTIONS
+// if (req.method === "OPTIONS") {
+//   return NextResponse.json({}, { status: 204 });
+// }
+
+// try {
+//   // Extract token from Authorization header
+  
+  
+//   const { customerId } = await req.json();
+//   console.log("customerId", customerId);
+//   const token = req.headers.get("Authorization")?.split(" ")[1];
+//   if (!token) {
+//     return NextResponse.json(
+//       { message: "Missing Token" },
+//       { status: 400 }
+//     );
+//   }
+
+//   // Verify JWT token
+//   let decodedToken;
+//   try {
+//     decodedToken = jwt.verify(token, JWT_SECRET);
+//   } catch (err) {
+//     console.error("Token validation failed:", err);
+//     return NextResponse.json(
+//       { message: "Invalid or expired token" },
+//       { status: 401 }
+//     );
+//   }
+// console.log("token verified");
+
+//   // Retrieve customerId from params
+//   // const { customerId } = params;
+//   console.log("customer Id", customerId);
+  
+//   // Now you can use customerId in your logic
+//   console.log("Customer ID:", customerId);
+
+//   // Add your logic here to handle the customer's wishlist
+//   const customer = await payload.findByID({
+//       collection:'customers',
+//       id:customerId
+//   }) 
+//   console.log("customer", customer);
+  
+//   return NextResponse.json({ message: "Wishlist fetched successfully", wishlist:customer.wishlists });
+
+// } catch (error) {
+//   console.error("Error:", error);
+//   return NextResponse.json(
+//     { message: "An error occurred", error },
+//     { status: 500 }
+//   );
+// }
+// }
+

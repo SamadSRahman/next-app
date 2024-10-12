@@ -7,31 +7,10 @@ export const Customers: CollectionConfig = {
     verify:true,
   }, // Enable auth for this collection
   access: {
-    read:({ req: { user }, id }) => {
-      // Check if the user object is present (i.e., the JWT token is valid)
-      console.log("id", id);
-      console.log("userId",user, user?.id);
-    
-      
-      
-      if (user && user.id === id) {
-        // If the authenticated user's ID matches the document's ID, allow access
-        return true;
-      }
-
-      // The token is invalid or not present, deny access
-      return false;
-    },
-    update: ({ req: { user } , id}) => {
-      // Check if the user object is present (i.e., the JWT token is valid)
-      if (user?.id ===id) {
-        // The token is valid, allow the update
-        return true;
-      }
-
-      // The token is invalid or not present, deny access
-      return false;
-    },
+    read:() => true,
+    update:() => true,
+    create:() => true,
+   
   },
   admin: {
     useAsTitle: "name", // Display 'name' in the admin panel
@@ -102,18 +81,5 @@ export const Customers: CollectionConfig = {
       label:"Wishlist",
       hasMany:true
     },
-    // {
-    //   name: "wishlist",
-    //   type: "array",
-    //   fields: [
-    //     {
-    //       name:"product",
-    //       label:"Product",
-    //       type:"relationship",
-    //       relationTo:"products",
-    //       hasMany:true
-    //     }
-    //   ],
-    // },
   ],
 };
