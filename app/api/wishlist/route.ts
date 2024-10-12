@@ -68,8 +68,8 @@ export async function POST(req: NextRequest) {
       });
       response.headers.set(
         "Access-Control-Allow-Origin",
-        "http://localhost:5173"
-        // "https://e-commerce-am.vercel.app"
+        // "http://localhost:5173"
+        "https://e-commerce-am.vercel.app"
       );
       response.headers.set("Access-Control-Allow-Methods", "POST");
       response.headers.set(
@@ -132,8 +132,8 @@ export async function POST(req: NextRequest) {
     // Set CORS headers
     response.headers.set(
       "Access-Control-Allow-Origin",
-      "http://localhost:5173"
-      // "https://e-commerce-am.vercel.app"
+      // "http://localhost:5173"
+      "https://e-commerce-am.vercel.app"
     );
     response.headers.set("Access-Control-Allow-Methods", "POST");
     response.headers.set(
