@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       message: "Wishlist updated successfully",
-      wishlist: customer.wishlists,
+      wishlist: updatedCustomer.wishlists,
     });
 
     // Set CORS headers
